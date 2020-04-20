@@ -18,11 +18,12 @@ public class MainMatrix {
         final int[][] matrixA = MatrixUtil.create(MATRIX_SIZE);
         final int[][] matrixB = MatrixUtil.create(MATRIX_SIZE);
 
+        double optimizedSingleThreadSum = 0.;
         double singleThreadSum = 0.;
         double concurrentThreadSum = 0.;
         int count = 1;
 
-        while (count < 6) {
+        while (count < 10) {
             System.out.println("Pass " + count);
 
             long start = System.currentTimeMillis();
@@ -32,6 +33,22 @@ public class MainMatrix {
             out("Single thread time, sec: %.3f", duration);
 
             singleThreadSum += duration;
+
+            //---------------------------------------------------------------------
+            start = System.currentTimeMillis();
+            final int[][] optimizedMatrixC = MatrixUtil.singleThreadMultiplyOptimized(matrixA, matrixB);
+            duration = (System.currentTimeMillis() - start) / 1000.;
+
+            out("Optimized single thread time, sec: %.3f", duration);
+
+            optimizedSingleThreadSum += duration;
+
+            if (!MatrixUtil.compare(matrixC, optimizedMatrixC)) {
+                System.err.println("Comparison optimized failed");
+                break;
+            }
+            //---------------------------------------------------------------------
+
 
             start = System.currentTimeMillis();
             final int[][] concurrentMatrixC = MatrixUtil.concurrentMultiply(matrixA, matrixB, executor);
@@ -49,6 +66,7 @@ public class MainMatrix {
         }
         executor.shutdown();
 
+        out("\nAverage optimized single thread time, sec: %.3f", optimizedSingleThreadSum / 5.);
         out("\nAverage single thread time, sec: %.3f", singleThreadSum / 5.);
         out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
     }

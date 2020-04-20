@@ -18,7 +18,39 @@ public class MatrixUtil {
         return matrixC;
     }
 
-    // TODO optimize by https://habrahabr.ru/post/114797/
+    // optimize by https://habrahabr.ru/post/114797/
+    public static int[][] singleThreadMultiplyOptimized(int[][] matrixA, int[][] matrixB) {
+        // TODO: Проверка наличия хотя бы одной строки в массиве
+
+        final int aColumns = matrixA[0].length;
+        final int aRows = matrixA.length;
+        final int bColumns = matrixB[0].length;
+        final int bRows = matrixB.length;
+
+        final int[][] matrixC = new int[aRows][aRows];
+
+        int thatColumn[] = new int[bRows];
+
+        try {
+            for (int j = 0; ; j++) {
+                for (int k = 0; k < aColumns; k++) {
+                    thatColumn[k] = matrixB[k][j];
+                }
+
+                for (int i = 0; i < aRows; i++) {
+                    int thisRow[] = matrixA[i];
+                    int summand = 0;
+                    for (int k = 0; k < aColumns; k++) {
+                        summand += thisRow[k] * thatColumn[k];
+                    }
+                    matrixC[i][j] = summand;
+                }
+            }
+        } catch (IndexOutOfBoundsException ignored) { }
+
+        return matrixC;
+    }
+
     public static int[][] singleThreadMultiply(int[][] matrixA, int[][] matrixB) {
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
