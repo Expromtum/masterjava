@@ -1,8 +1,10 @@
 package ru.javaops.masterjava.matrix;
 
+import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * gkislin
@@ -12,11 +14,64 @@ public class MatrixUtil {
 
     // TODO implement parallel multiplication matrixA*matrixB
     public static int[][] concurrentMultiply(int[][] matrixA, int[][] matrixB, ExecutorService executor) throws InterruptedException, ExecutionException {
+
+        class MultiResult {
+            private final int col;
+            private final int[] cols;
+
+            public MultiResult(int col, int[] cols) {
+                this.col = col;
+                this.cols = cols;
+            }
+        }
+
+        final CompletionService<MultiResult> completionService = new ExecutorCompletionService<>(executor);
+
         final int matrixSize = matrixA.length;
         final int[][] matrixC = new int[matrixSize][matrixSize];
 
+        double BT[][] = new double[matrixSize][matrixSize];
+        for (int i = 0; i < matrixSize; i++) {
+            for (int j = 0; j < matrixSize; j++) {
+                BT[j][i] = matrixB[i][j];
+            }
+        }
+
+        List<Future<MultiResult>> futures = Stream.iterate(0, col -> col + 1)
+                .limit(matrixSize)
+                .map(col ->
+                        completionService.submit(() -> {
+                                    int[] cols = new int[matrixSize];
+                                    for (int j = 0; j < matrixSize; j++) {
+                                        int sum = 0;
+                                        for (int k = 0; k < matrixSize; k++) {
+                                            sum += matrixA[col][k] * BT[j][k];
+                                        }
+                                        cols[j] = sum;
+                                    }
+
+                                    return new MultiResult(col, cols);
+                                }
+                        )
+                ).collect(Collectors.toList());
+
+        while (!futures.isEmpty()) {
+            Future<MultiResult> future = completionService.take();
+            futures.remove(future);
+
+            MultiResult res = future.get();
+
+            if (res == null)
+                return new int[matrixSize][matrixSize];
+
+            for (int j = 0; j < res.cols.length; j++) {
+                matrixC[res.col][j] = res.cols[j];
+            }
+        }
+
         return matrixC;
     }
+
 
     // optimize by https://habrahabr.ru/post/114797/
     public static int[][] singleThreadMultiplyOptimized(int[][] matrixA, int[][] matrixB) {
@@ -46,7 +101,8 @@ public class MatrixUtil {
                     matrixC[i][j] = summand;
                 }
             }
-        } catch (IndexOutOfBoundsException ignored) { }
+        } catch (IndexOutOfBoundsException ignored) {
+        }
 
         return matrixC;
     }

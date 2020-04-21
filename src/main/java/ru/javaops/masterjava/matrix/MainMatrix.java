@@ -23,7 +23,7 @@ public class MainMatrix {
         double concurrentThreadSum = 0.;
         int count = 1;
 
-        while (count < 10) {
+        while (count < 6) {
             System.out.println("Pass " + count);
 
             long start = System.currentTimeMillis();
@@ -45,10 +45,10 @@ public class MainMatrix {
 
             if (!MatrixUtil.compare(matrixC, optimizedMatrixC)) {
                 System.err.println("Comparison optimized failed");
+
                 break;
             }
             //---------------------------------------------------------------------
-
 
             start = System.currentTimeMillis();
             final int[][] concurrentMatrixC = MatrixUtil.concurrentMultiply(matrixA, matrixB, executor);
@@ -60,6 +60,14 @@ public class MainMatrix {
 
             if (!MatrixUtil.compare(matrixC, concurrentMatrixC)) {
                 System.err.println("Comparison failed");
+
+                System.err.println("matrixC:");
+                out(matrixC);
+
+                System.err.println("");
+                System.err.println("concurrentMatrixC:");
+
+                out(concurrentMatrixC);
                 break;
             }
             count++;
@@ -69,6 +77,14 @@ public class MainMatrix {
         out("\nAverage optimized single thread time, sec: %.3f", optimizedSingleThreadSum / 5.);
         out("\nAverage single thread time, sec: %.3f", singleThreadSum / 5.);
         out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
+    }
+
+    private static void out (int[][] matrix ) {
+        for (int i = 0; i < matrix.length; i++) {
+            System.out.print("\n");
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print( matrix[i][j] + " ");
+            }}
     }
 
     private static void out(String format, double ms) {
