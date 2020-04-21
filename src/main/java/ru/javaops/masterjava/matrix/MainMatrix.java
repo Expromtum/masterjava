@@ -23,68 +23,72 @@ public class MainMatrix {
         double concurrentThreadSum = 0.;
         int count = 1;
 
-        while (count < 6) {
-            System.out.println("Pass " + count);
+        try {
+            while (count < 6) {
+                System.out.println("Pass " + count);
 
-            long start = System.currentTimeMillis();
-            final int[][] matrixC = MatrixUtil.singleThreadMultiply(matrixA, matrixB);
-            double duration = (System.currentTimeMillis() - start) / 1000.;
+                long start = System.currentTimeMillis();
+                final int[][] matrixC = MatrixUtil.singleThreadMultiply(matrixA, matrixB);
+                double duration = (System.currentTimeMillis() - start) / 1000.;
 
-            out("Single thread time, sec: %.3f", duration);
+                out("Single thread time, sec: %.3f", duration);
 
-            singleThreadSum += duration;
+                singleThreadSum += duration;
 
-            //---------------------------------------------------------------------
-            start = System.currentTimeMillis();
-            final int[][] optimizedMatrixC = MatrixUtil.singleThreadMultiplyOptimized(matrixA, matrixB);
-            duration = (System.currentTimeMillis() - start) / 1000.;
+                //---------------------------------------------------------------------
+                start = System.currentTimeMillis();
+                final int[][] optimizedMatrixC = MatrixUtil.singleThreadMultiplyOptimized(matrixA, matrixB);
+                duration = (System.currentTimeMillis() - start) / 1000.;
 
-            out("Optimized single thread time, sec: %.3f", duration);
+                out("Optimized single thread time, sec: %.3f", duration);
 
-            optimizedSingleThreadSum += duration;
+                optimizedSingleThreadSum += duration;
 
-            if (!MatrixUtil.compare(matrixC, optimizedMatrixC)) {
-                System.err.println("Comparison optimized failed");
+                if (!MatrixUtil.compare(matrixC, optimizedMatrixC)) {
+                    System.err.println("Comparison optimized failed");
 
-                break;
+                    break;
+                }
+                //---------------------------------------------------------------------
+
+                start = System.currentTimeMillis();
+                final int[][] concurrentMatrixC = MatrixUtil.concurrentMultiply(matrixA, matrixB, executor);
+                duration = (System.currentTimeMillis() - start) / 1000.;
+
+                out("Concurrent thread time, sec: %.3f", duration);
+
+                concurrentThreadSum += duration;
+
+                if (!MatrixUtil.compare(matrixC, concurrentMatrixC)) {
+                    System.err.println("Comparison failed");
+
+                    System.err.println("matrixC:");
+                    out(matrixC);
+
+                    System.err.println("");
+                    System.err.println("concurrentMatrixC:");
+
+                    out(concurrentMatrixC);
+                    break;
+                }
+                count++;
             }
-            //---------------------------------------------------------------------
-
-            start = System.currentTimeMillis();
-            final int[][] concurrentMatrixC = MatrixUtil.concurrentMultiply(matrixA, matrixB, executor);
-            duration = (System.currentTimeMillis() - start) / 1000.;
-
-            out("Concurrent thread time, sec: %.3f", duration);
-
-            concurrentThreadSum += duration;
-
-            if (!MatrixUtil.compare(matrixC, concurrentMatrixC)) {
-                System.err.println("Comparison failed");
-
-                System.err.println("matrixC:");
-                out(matrixC);
-
-                System.err.println("");
-                System.err.println("concurrentMatrixC:");
-
-                out(concurrentMatrixC);
-                break;
-            }
-            count++;
+        } finally {
+            executor.shutdown();
         }
-        executor.shutdown();
 
         out("\nAverage optimized single thread time, sec: %.3f", optimizedSingleThreadSum / 5.);
         out("\nAverage single thread time, sec: %.3f", singleThreadSum / 5.);
         out("Average concurrent thread time, sec: %.3f", concurrentThreadSum / 5.);
     }
 
-    private static void out (int[][] matrix ) {
-        for (int i = 0; i < matrix.length; i++) {
+    private static void out(int[][] matrix) {
+        for (int[] ints : matrix) {
             System.out.print("\n");
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print( matrix[i][j] + " ");
-            }}
+            for (int anInt : ints) {
+                System.out.print(anInt + " ");
+            }
+        }
     }
 
     private static void out(String format, double ms) {
