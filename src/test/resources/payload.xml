@@ -2,17 +2,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://javaops.ru payload.xsd">
     <Users>
-        <User flag="active" city="kiv">
-            <email>gmail@gmail.com</email>
-            <fullName>Full Name</fullName>
+        <User flag="active" city="kiv" email="gmail@gmail.com">
+            <fullName>User01</fullName>
+            <UserGroups>
+                <UserGroup group="topjava01"></UserGroup>
+            </UserGroups>
         </User>
-        <User flag="superuser" city="spb">
-            <email>admin@javaops.ru</email>
+        <User flag="superuser" city="spb" email="admin@javaops.ru">
             <fullName>Admin</fullName>
+            <UserGroups>
+                <UserGroup group="topjava01"></UserGroup>
+                <UserGroup group="topjava02"></UserGroup>
+                <UserGroup group="masterjava02"></UserGroup>
+            </UserGroups>
         </User>
-        <User flag="deleted" city="spb">
-            <email>mail@yandex.ru</email>
+        <User flag="deleted" city="spb" email="mail@yandex.ru">
             <fullName>Deleted</fullName>
+            <UserGroups>
+                <UserGroup group="topjava02"></UserGroup>
+            </UserGroups>
         </User>
     </Users>
     <Cities>
@@ -20,4 +28,25 @@
         <City id="kiv">Киев</City>
         <City id="mnsk">Минск</City>
     </Cities>
+    <Projects>
+        <Project id="topjava">
+            <fullName>Topjava</fullName>
+            <about>about topjava....</about>
+        </Project>
+        <Project id="masterjava">
+            <fullName>Masterjava</fullName>
+            <about>about masterjava....</about>
+        </Project>
+    </Projects>
+    <Groups>
+        <Group id="topjava01" grouptype="FINISHED" project="topjava">
+            <fullName>Topjava01</fullName>
+        </Group>
+        <Group id="topjava02" grouptype="REGISTERING" project="topjava">
+            <fullName>Topjava02</fullName>
+        </Group>
+        <Group id="masterjava02" grouptype="REGISTERING" project="masterjava">
+            <fullName>Masterjava02</fullName>
+        </Group>
+    </Groups>
 </Payload>
