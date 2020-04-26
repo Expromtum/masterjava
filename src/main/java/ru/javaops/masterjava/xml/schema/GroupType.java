@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
@@ -27,7 +26,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *       &lt;/sequence>
  *       &lt;attribute name="id" use="required" type="{http://www.w3.org/2001/XMLSchema}ID" />
  *       &lt;attribute name="groupstate" use="required" type="{http://javaops.ru}groupState" />
- *       &lt;attribute name="project" use="required" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
+ *       &lt;attribute name="project" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -51,9 +50,7 @@ public class GroupType {
     @XmlAttribute(name = "groupstate", required = true)
     protected GroupState groupstate;
     @XmlAttribute(name = "project", required = true)
-    @XmlIDREF
-    @XmlSchemaType(name = "IDREF")
-    protected Object project;
+    protected String project;
 
     /**
      * Gets the value of the fullName property.
@@ -132,10 +129,10 @@ public class GroupType {
      * 
      * @return
      *     possible object is
-     *     {@link Object }
+     *     {@link String }
      *     
      */
-    public Object getProject() {
+    public String getProject() {
         return project;
     }
 
@@ -144,10 +141,10 @@ public class GroupType {
      * 
      * @param value
      *     allowed object is
-     *     {@link Object }
+     *     {@link String }
      *     
      */
-    public void setProject(Object value) {
+    public void setProject(String value) {
         this.project = value;
     }
 

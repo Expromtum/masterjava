@@ -26,6 +26,10 @@
             <fullName>Masterjava</fullName>
             <about>about masterjava....</about>
         </Project>
+        <Project id="masterjava">
+            <fullName>Masterjava</fullName>
+            <about>about masterjava....</about>
+        </Project>
     </Projects>
     <Groups>
         <Group id="topjava01" groupstate="FINISHED" project="topjava">
@@ -41,6 +45,12 @@
             <fullName>topjava08</fullName>
         </Group>
         <Group id="masterjava01" groupstate="REGISTERING" project="masterjava">
+            <fullName>Masterjava01</fullName>
+        </Group>
+        <Group id="INVALID" groupstate="REGISTERING" project="INVALID">
+            <fullName>Masterjava01</fullName>
+        </Group>
+        <Group id="INVALID2" groupstate="REGISTERING" project="spb">
             <fullName>Masterjava01</fullName>
         </Group>
     </Groups>
