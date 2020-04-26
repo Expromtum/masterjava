@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
@@ -15,12 +16,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
- * <p>Java class for projectType complex type.
+ * <p>Java class for anonymous complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="projectType">
+ * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -47,16 +48,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "projectType", namespace = "http://javaops.ru", propOrder = {
+@XmlType(name = "", propOrder = {
     "description",
     "group"
 })
-public class ProjectType {
+@XmlRootElement(name = "Project", namespace = "http://javaops.ru")
+public class Project {
 
     @XmlElement(namespace = "http://javaops.ru", required = true)
     protected String description;
     @XmlElement(name = "Group", namespace = "http://javaops.ru", required = true)
-    protected List<ProjectType.Group> group;
+    protected List<Project.Group> group;
     @XmlAttribute(name = "name", required = true)
     protected String name;
 
@@ -102,13 +104,13 @@ public class ProjectType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link ProjectType.Group }
+     * {@link Project.Group }
      * 
      * 
      */
-    public List<ProjectType.Group> getGroup() {
+    public List<Project.Group> getGroup() {
         if (group == null) {
-            group = new ArrayList<ProjectType.Group>();
+            group = new ArrayList<Project.Group>();
         }
         return this.group;
     }

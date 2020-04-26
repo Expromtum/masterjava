@@ -6,11 +6,11 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 
 /**
@@ -20,17 +20,14 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * <pre>
  * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="fullName" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
+ *   &lt;simpleContent>
+ *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
  *       &lt;attribute name="flag" use="required" type="{http://javaops.ru}flagType" />
  *       &lt;attribute name="city" use="required" type="{http://www.w3.org/2001/XMLSchema}IDREF" />
  *       &lt;attribute name="email" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="groups" use="required" type="{http://javaops.ru}groups" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
+ *       &lt;attribute name="groupRefs" type="{http://www.w3.org/2001/XMLSchema}IDREFS" />
+ *     &lt;/extension>
+ *   &lt;/simpleContent>
  * &lt;/complexType>
  * </pre>
  * 
@@ -38,13 +35,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "fullName"
+    "value"
 })
 @XmlRootElement(name = "User", namespace = "http://javaops.ru")
 public class User {
 
-    @XmlElement(namespace = "http://javaops.ru", required = true)
-    protected String fullName;
+    @XmlValue
+    protected String value;
     @XmlAttribute(name = "flag", required = true)
     protected FlagType flag;
     @XmlAttribute(name = "city", required = true)
@@ -53,32 +50,33 @@ public class User {
     protected Object city;
     @XmlAttribute(name = "email", required = true)
     protected String email;
-    @XmlAttribute(name = "groups", required = true)
+    @XmlAttribute(name = "groupRefs")
     @XmlIDREF
-    protected List<Object> groups;
+    @XmlSchemaType(name = "IDREFS")
+    protected List<Object> groupRefs;
 
     /**
-     * Gets the value of the fullName property.
+     * Gets the value of the value property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getFullName() {
-        return fullName;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets the value of the fullName property.
+     * Sets the value of the value property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setFullName(String value) {
-        this.fullName = value;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     /**
@@ -154,18 +152,18 @@ public class User {
     }
 
     /**
-     * Gets the value of the groups property.
+     * Gets the value of the groupRefs property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the groups property.
+     * This is why there is not a <CODE>set</CODE> method for the groupRefs property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getGroups().add(newItem);
+     *    getGroupRefs().add(newItem);
      * </pre>
      * 
      * 
@@ -175,11 +173,21 @@ public class User {
      * 
      * 
      */
-    public List<Object> getGroups() {
-        if (groups == null) {
-            groups = new ArrayList<Object>();
+    public List<Object> getGroupRefs() {
+        if (groupRefs == null) {
+            groupRefs = new ArrayList<Object>();
         }
-        return this.groups;
+        return this.groupRefs;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "value='" + value + '\'' +
+                ", flag=" + flag +
+                ", city=" + city +
+                ", email='" + email + '\'' +
+                ", groupRefs=" + groupRefs +
+                '}';
+    }
 }

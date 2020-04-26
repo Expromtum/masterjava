@@ -53,17 +53,6 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;/complexContent>
  *           &lt;/complexType>
  *         &lt;/element>
- *         &lt;element name="Groups">
- *           &lt;complexType>
- *             &lt;complexContent>
- *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *                 &lt;sequence maxOccurs="unbounded" minOccurs="0">
- *                   &lt;element ref="{http://javaops.ru}Group"/>
- *                 &lt;/sequence>
- *               &lt;/restriction>
- *             &lt;/complexContent>
- *           &lt;/complexType>
- *         &lt;/element>
  *       &lt;/all>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -85,8 +74,6 @@ public class Payload {
     protected Payload.Users users;
     @XmlElement(name = "Projects", namespace = "http://javaops.ru", required = true)
     protected Payload.Projects projects;
-    @XmlElement(name = "Groups", namespace = "http://javaops.ru", required = true)
-    protected Payload.Groups groups;
 
     /**
      * Gets the value of the cities property.
@@ -160,30 +147,6 @@ public class Payload {
         this.projects = value;
     }
 
-    /**
-     * Gets the value of the groups property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Payload.Groups }
-     *     
-     */
-    public Payload.Groups getGroups() {
-        return groups;
-    }
-
-    /**
-     * Sets the value of the groups property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Payload.Groups }
-     *     
-     */
-    public void setGroups(Payload.Groups value) {
-        this.groups = value;
-    }
-
 
     /**
      * <p>Java class for anonymous complex type.
@@ -255,66 +218,6 @@ public class Payload {
      *   &lt;complexContent>
      *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
      *       &lt;sequence maxOccurs="unbounded" minOccurs="0">
-     *         &lt;element ref="{http://javaops.ru}Group"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "group"
-    })
-    public static class Groups {
-
-        @XmlElement(name = "Group", namespace = "http://javaops.ru")
-        protected List<GroupType> group;
-
-        /**
-         * Gets the value of the group property.
-         * 
-         * <p>
-         * This accessor method returns a reference to the live list,
-         * not a snapshot. Therefore any modification you make to the
-         * returned list will be present inside the JAXB object.
-         * This is why there is not a <CODE>set</CODE> method for the group property.
-         * 
-         * <p>
-         * For example, to add a new item, do as follows:
-         * <pre>
-         *    getGroup().add(newItem);
-         * </pre>
-         * 
-         * 
-         * <p>
-         * Objects of the following type(s) are allowed in the list
-         * {@link GroupType }
-         * 
-         * 
-         */
-        public List<GroupType> getGroup() {
-            if (group == null) {
-                group = new ArrayList<GroupType>();
-            }
-            return this.group;
-        }
-
-    }
-
-
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence maxOccurs="unbounded" minOccurs="0">
      *         &lt;element ref="{http://javaops.ru}Project"/>
      *       &lt;/sequence>
      *     &lt;/restriction>
@@ -331,7 +234,7 @@ public class Payload {
     public static class Projects {
 
         @XmlElement(name = "Project", namespace = "http://javaops.ru")
-        protected List<ProjectType> project;
+        protected List<Project> project;
 
         /**
          * Gets the value of the project property.
@@ -351,13 +254,13 @@ public class Payload {
          * 
          * <p>
          * Objects of the following type(s) are allowed in the list
-         * {@link ProjectType }
+         * {@link Project }
          * 
          * 
          */
-        public List<ProjectType> getProject() {
+        public List<Project> getProject() {
             if (project == null) {
-                project = new ArrayList<ProjectType>();
+                project = new ArrayList<Project>();
             }
             return this.project;
         }
