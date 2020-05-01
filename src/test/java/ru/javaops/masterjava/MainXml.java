@@ -8,14 +8,18 @@ import ru.javaops.masterjava.xml.util.Schemas;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static j2html.TagCreator.*;
+
 public class MainXml {
 
-    public static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getValue).thenComparing(User::getEmail);
+    private static final Comparator<User> USER_COMPARATOR = Comparator.comparing(User::getValue).thenComparing(User::getEmail);
 
-    public static Set<User> getUsersByProject(String projectName, URL url)  throws Exception {
+    private static Set<User> getUsersByProject(String projectName, URL url) throws Exception {
         JaxbParser parser = new JaxbParser(ObjectFactory.class);
         parser.setSchema(Schemas.ofClasspath("payload.xsd"));
 
@@ -26,21 +30,45 @@ public class MainXml {
                     .filter(p -> p.getName().equals(projectName))
                     .findAny().orElseThrow(() -> new IllegalArgumentException("Invalid ProjectName"));
 
-            List <Project.Group> groups = project.getGroup();
+            List<Project.Group> groups = project.getGroup();
 
             return payload.getUsers().getUser().stream()
                     .filter(u -> StreamEx.of(u.getGroupRefs())
-                            .findAny(g ->groups.contains(g))
+                            .findAny(g -> groups.contains(g))
                             .isPresent())
-                    .collect(Collectors.toCollection(() -> new TreeSet<User>(USER_COMPARATOR)));
+                    .collect(Collectors.toCollection(() -> new TreeSet<>(USER_COMPARATOR)));
         }
     }
 
-    public static void main(String[] args) throws Exception{
+    private static String toHtml(Set<User> users, String projectName) {
+        return html(
+                head(
+                        title(projectName),
+                        link().withRel("stylesheet")
+                ),
+                body(
+                        table(attrs("#users"),
+                                tbody(
+                                        tr(th("Email"), th("Name")
+                                        ),
+                                        each(users, user -> tr(
+                                                td(user.getEmail()),
+                                                td(user.getValue())
+                                        ))
+                                )
+                        ).attr("border", "1")
+                )
+        ).render();
+    }
+
+
+    public static void main(String[] args) throws Exception {
         String projectName = "topjava";
         Set<User> users = MainXml.getUsersByProject(projectName,
                 Resources.getResource("payload.xml"));
 
-        users.forEach(u -> System.out.println(u));
+        String html = toHtml(users, projectName);
+
+        Files.writeString(Paths.get("out/users.html"), html);
     }
 }
