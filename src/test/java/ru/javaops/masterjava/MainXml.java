@@ -2,15 +2,12 @@ package ru.javaops.masterjava;
 
 import com.google.common.io.Resources;
 import one.util.streamex.StreamEx;
-import org.w3c.dom.Document;
 import ru.javaops.masterjava.xml.schema.*;
 import ru.javaops.masterjava.xml.util.JaxbParser;
 import ru.javaops.masterjava.xml.util.Schemas;
+import ru.javaops.masterjava.xml.util.XsltProcessor;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.BufferedReader;
@@ -81,7 +78,8 @@ public class MainXml {
             Templates template = factory.newTemplates(xslSource);
             Transformer transformer = template.newTransformer();
 
-            params.forEach((key, value) -> transformer.setParameter(key, value));
+            params.forEach((key, value) ->
+                    transformer.setParameter(key, value));
 
             Source xmlSource = new StreamSource(new BufferedReader(new InputStreamReader(xmlInputStream, StandardCharsets.UTF_8)));
             StringWriter out = new StringWriter();
@@ -89,8 +87,18 @@ public class MainXml {
 
             return out.getBuffer().toString();
         }
-   }
+    }
 
+    private static String transformXsl2(URL xmlUrl, URL xslUrl, Map<String, String> params) throws Exception {
+        try (InputStream xmlInputStream = xmlUrl.openStream();
+             InputStream xslInputStream = xslUrl.openStream()) {
+
+            XsltProcessor processor = new XsltProcessor(xslInputStream);
+            params.forEach(processor::setParameter);
+
+            return processor.transform(xmlInputStream);
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         String projectName = "topjava";
@@ -104,7 +112,7 @@ public class MainXml {
         Map<String, String> params = new HashMap<>();
         params.put("projectName", "topjava");
 
-        html = transformXsl(xml, xsl, params);
+        html = transformXsl2(xml, xsl, params);
         System.out.println(html);
         Files.writeString(Paths.get("out/users2.html"), html);
     }
