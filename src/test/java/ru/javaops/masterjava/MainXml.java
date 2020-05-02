@@ -2,12 +2,23 @@ package ru.javaops.masterjava;
 
 import com.google.common.io.Resources;
 import one.util.streamex.StreamEx;
+import org.w3c.dom.Document;
 import ru.javaops.masterjava.xml.schema.*;
 import ru.javaops.masterjava.xml.util.JaxbParser;
 import ru.javaops.masterjava.xml.util.Schemas;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -61,14 +72,40 @@ public class MainXml {
         ).render();
     }
 
+    private static String transformXsl(URL xmlUrl, URL xslUrl, Map<String, String> params) throws Exception {
+        try (InputStream xmlInputStream = xmlUrl.openStream();
+             InputStream xslInputStream = xslUrl.openStream()) {
+
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Source xslSource = new StreamSource(new BufferedReader(new InputStreamReader(xslInputStream, StandardCharsets.UTF_8)));
+            Templates template = factory.newTemplates(xslSource);
+            Transformer transformer = template.newTransformer();
+
+            params.forEach((key, value) -> transformer.setParameter(key, value));
+
+            Source xmlSource = new StreamSource(new BufferedReader(new InputStreamReader(xmlInputStream, StandardCharsets.UTF_8)));
+            StringWriter out = new StringWriter();
+            transformer.transform(xmlSource, new StreamResult(out));
+
+            return out.getBuffer().toString();
+        }
+   }
+
 
     public static void main(String[] args) throws Exception {
         String projectName = "topjava";
-        Set<User> users = MainXml.getUsersByProject(projectName,
-                Resources.getResource("payload.xml"));
+        URL xml = Resources.getResource("payload.xml");
+        URL xsl = Resources.getResource("payload.xsl");
 
+        Set<User> users = MainXml.getUsersByProject(projectName, xml);
         String html = toHtml(users, projectName);
-
         Files.writeString(Paths.get("out/users.html"), html);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("projectName", "topjava");
+
+        html = transformXsl(xml, xsl, params);
+        System.out.println(html);
+        Files.writeString(Paths.get("out/users2.html"), html);
     }
 }
