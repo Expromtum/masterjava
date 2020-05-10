@@ -16,6 +16,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>internal.repo</id>-->
+<!--            <name>Internal repo</name>-->
+<!--            <url>file:///home/masterjava/in</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
+
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
@@ -27,6 +36,12 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-project-info-reports-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
