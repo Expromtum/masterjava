@@ -1,0 +1,98 @@
+body {
+    /*width: 460px;*/
+    padding: 20px;
+    font-size: 14px;
+    font-family: "Arial", "Helvetica Neue", "Helvetica", sans-serif;
+}
+
+.reestr-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 16px;
+}
+
+.reestr-table th {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    color: white;
+    padding: 10px;
+    background-color: darkcyan;
+}
+
+.reestr-table td {
+    border-bottom: 1px solid lightgray;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.column-align-right {
+    text-align: right;
+}
+
+.column-align-center {
+    text-align: center;
+}
+
+.highlight_red {
+    color: red;
+}
+
+.highlight_green {
+    color: green;
+}
+
+.buttons, input[type="submit"], button {
+    display: inline-block;
+    margin: 5px 5px;
+    padding: 6px 15px;
+    color: #ffffff;
+    background: #2c3e50;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+input[type="password"] {
+    width: 95%;
+    height: 30px;
+    margin-bottom: 10px;
+    padding: 2px 5px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+form {
+    /*width: 300px;*/
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #cccccc;
+}
+
+.onerec-table {
+    width: 400px;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.onerec-table th {
+    color: white;
+    padding: 10px;
+    background-color: darkcyan;
+}
+
+.onerec-table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
