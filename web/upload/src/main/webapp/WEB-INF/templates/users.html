@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Uploaded users</title>
+</head>
+<body>
+    <!--<p th:text="#{welcome.msg}">Welcome Offline</p>-->
+    <p>Date : <span th:text="${currentDate}">Sat Oct 24 2015</span></p>
+
+    <h3><a href="upload">Upload</a></h3>
+    <hr>
+    <table class="reestr-table">
+        <caption><h2>Users</h2></caption>
+        <tr>
+            <th>Full Name</th>
+            <th>EMail</th>
+            <th>Flag</th>
+        </tr>
+        <!--/*@thymesVar id="users" type="ru.javaops.masterjava.model.User>"*/-->
+        <tr th:each="user : ${users}">
+            <td th:text="${user.fullName}"></td>
+            <td th:utext="${user.email}"></td>
+            <td th:text="${user.flag}"></td>
+        </tr>
+    </table>
+</body>
+</html>
