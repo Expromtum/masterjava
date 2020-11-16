@@ -1,4 +1,6 @@
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head xmlns:th="http://www.w3.org/1999/xhtml">
     <meta charset="UTF-8">
     <title>Upload XML</title>
 </head>
@@ -7,6 +9,10 @@
     <h3>Select xml file to upload</h3>
     <p>
         <input type="file" name="fileToUpload" id="fileToUpload"><br/>
+    </p>
+    <h3>Set batch chunk size</h3>
+    <p>
+        <input type="number" name="batchChunkSize" id="batchChunkSize" th:value="${batchChunkSize}" value="1000"><br/>
     </p>
     <p>
         <input type="submit" value="Upload" name="submit">
