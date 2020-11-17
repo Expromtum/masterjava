@@ -17,4 +17,8 @@ public class UserService {
     public List<User> insertAll(int batchChunkSize, List<User> users) {
         return dao.insertAll(batchChunkSize, users);
     }
+
+    public List<User> getWithLimit(int limit) {
+        return dao.getWithLimit(limit);
+    }
 }
