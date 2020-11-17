@@ -18,6 +18,10 @@ public class UserService {
         return dao.insertAll(batchChunkSize, users);
     }
 
+    public void insertOnlyNew(int batchChunkSize, List<User> users) {
+        dao.insertOnlyNew(batchChunkSize, users);
+    }
+
     public List<User> getWithLimit(int limit) {
         return dao.getWithLimit(limit);
     }

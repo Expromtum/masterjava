@@ -34,7 +34,6 @@ public class DBIProvider {
                 }
             }
             jDBI = dbi;
-//            jDBI.setSqlLogger(new SLF4JLog());
         }
     }
 

@@ -14,6 +14,10 @@ public class UserTestData {
     public static User USER1;
     public static User USER2;
     public static User USER3;
+
+    public static User USER4;
+    public static User USER5;
+
     public static List<User> FIST5_USERS;
 
     public static void init() {
@@ -24,15 +28,14 @@ public class UserTestData {
         USER2 = new User("User2", "user2@yandex.ru", UserFlag.active);
         USER3 = new User("User3", "user3@yandex.ru", UserFlag.active);
         FIST5_USERS = ImmutableList.of(ADMIN, DELETED, FULL_NAME, USER1, USER2);
+
+        USER4 = new User("User4", "User4@gmail.com", UserFlag.active);
+        USER5 = new User("User5", "User5@gmail.com", UserFlag.active);
     }
 
     public static void setUp() {
         UserDao dao = DBIProvider.getDao(UserDao.class);
         dao.clean();
-      /*  DBIProvider.getDBI().useTransaction((conn, status) -> {
-            FIST5_USERS.forEach(dao::insert);
-            dao.insert(USER3);
-        });*/
 
         DBIProvider.getDBI().useTransaction((handle) -> {
             dao.insertAll(5, FIST5_USERS);
