@@ -5,11 +5,12 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-abstract public class BaseEntity {
+public class City {
 
-    protected Integer id;
+    private String ref;
+    private  @NonNull String name;
 
     public boolean isNew() {
-        return id == null;
+        return ref == null;
     }
 }
