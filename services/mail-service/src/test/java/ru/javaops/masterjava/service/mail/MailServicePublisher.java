@@ -1,5 +1,6 @@
 package ru.javaops.masterjava.service.mail;
 
+
 import javax.xml.ws.Endpoint;
 
 /**
