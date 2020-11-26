@@ -29,7 +29,7 @@ public abstract class UserDao implements AbstractDao {
     @Transaction
     public int getSeqAndSkip(int step) {
         int id = getNextVal();
-        DBIProvider.getDBI().useHandle(h -> h.execute("ALTER SEQUENCE user_seq RESTART WITH " + (id + step)));
+        DBIProvider.getDBI().useHandle(h -> h.execute("SELECT setval('user_seq', " + (id + step-1) + ")"));
         return id;
     }
 
@@ -55,11 +55,11 @@ public abstract class UserDao implements AbstractDao {
     public abstract int[] insertBatch(@BindBean List<User> users, @BatchChunkSize int chunkSize);
 
 
-    public List<String> insertAndGetConflictEmails(List<User> users) {
+    public List<User> insertAndGetConflictEmails(List<User> users) {
         int[] result = insertBatch(users, users.size());
         return IntStreamEx.range(0, users.size())
                 .filter(i -> result[i] == 0)
-                .mapToObj(index -> users.get(index).getEmail())
+                .mapToObj(index -> users.get(index))
                 .toList();
     }
 }
