@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="15e96153-4e2d-4971-a69a-049bf7f8d977" activeEnvironment="Default" name="mail-service" resourceRoot="" soapui-version="5.6.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="67154ee1-bf16-4ebb-a83d-6a0d5095ce6a" wsaVersion="NONE" name="MailServiceImplPortBinding" type="wsdl" bindingName="{http://mail.javaops.ru/}MailServiceImplPortBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/mail/mailService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/mail/mailService?wsdl"><con:part><con:url>http://localhost:8080/mail/mailService?wsdl</con:url><con:content><![CDATA[<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0 svn-revision#3528ea595bd29309f69172d231bbce272d21035c.-->
+<definitions targetNamespace="http://mail.javaops.ru/" name="MailServiceImplService" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://mail.javaops.ru/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://mail.javaops.ru/">
+      <xs:element name="sendMail" type="tns:sendMail"/>
+      <xs:element name="sendMailResponse" type="tns:sendMailResponse"/>
+      <xs:complexType name="sendMail">
+        <xs:sequence>
+          <xs:element name="to" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="cc" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="subject" type="xs:string" minOccurs="0"/>
+          <xs:element name="body" type="xs:string" minOccurs="1"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="addressee">
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute type="xs:string" name="email"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:complexType name="sendMailResponse">
+        <xs:sequence/>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="sendMail">
+    <part name="parameters" element="tns:sendMail"/>
+  </message>
+  <message name="sendMailResponse">
+    <part name="parameters" element="tns:sendMailResponse"/>
+  </message>
+  <portType name="MailService">
+    <operation name="sendMail">
+      <input wsam:Action="http://mail.service.masterjava.javaops.ru/MailService/sendMailRequest" message="tns:sendMail"/>
+      <output wsam:Action="http://mail.service.masterjava.javaops.ru/MailService/sendMailResponse" message="tns:sendMailResponse"/>
+    </operation>
+  </portType>
+  <binding name="MailServiceImplPortBinding" type="tns:MailService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="sendMail">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="MailServiceImplService">
+    <port name="MailServiceImplPort" binding="tns:MailServiceImplPortBinding">
+      <soap:address location="http://localhost:8080/mail/mailService"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/mail/mailService</con:endpoint></con:endpoints><con:operation id="e1c6a44c-1cdd-46b3-9f32-cbf4cf06c97b" isOneWay="false" action="" name="sendMail" bindingOperationName="sendMail" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="590499e3-679d-43dc-9731-8a9c77d2a4d1" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/mail/mailService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mail="http://mail.javaops.ru/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <mail:sendMail>\r
+         <!--Zero or more repetitions:-->\r
+         <to><email> stagger@mail.ru</email></to>\r
+         <!--Zero or more repetitions:-->\r
+         <cc><email> stagger@mail.ru</email></cc>
+         <!--Optional:-->\r
+         <subject>SOAP TEST</subject>\r
+         <body>SOAP TEST BODY</body>\r
+      </mail:sendMail>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mail.service.masterjava.javaops.ru/MailService/sendMailRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
