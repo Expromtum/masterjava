@@ -22,6 +22,6 @@ public class MailCase extends BaseEntity {
     private Date datetime;
 
     public static MailCase of(Set<Addressee> to, Set<Addressee> cc, String subject, String state){
-        return new MailCase(Joiner.on(", ").join(to), Joiner.on(", ").join(cc), subject, state, new Date());
+        return new MailCase(Joiner.on(", ").join(to), (cc != null ? Joiner.on(", ").join(cc) : ""), subject, state, new Date());
     }
 }

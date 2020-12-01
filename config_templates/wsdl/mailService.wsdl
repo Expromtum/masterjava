@@ -39,12 +39,32 @@
                 </xs:simpleContent>
             </xs:complexType>
 
+            <xs:complexType name="mailResult">
+                <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                        <xs:attribute type="xs:string" name="email"/>
+                    </xs:extension>
+                </xs:simpleContent>
+            </xs:complexType>
+
+            <xs:complexType name="groupResult">
+                <xs:sequence>
+                    <xs:element name="failed" type="tns:mailResult" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+                    <xs:element name="failedCause" type="xs:string" minOccurs="0"/>
+                    <xs:element name="success" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+
             <xs:complexType name="sendToGroupResponse">
-                <xs:sequence/>
+                <xs:sequence>
+                    <xs:element name="return" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
             </xs:complexType>
 
             <xs:complexType name="sendBulkResponse">
-                <xs:sequence/>
+                <xs:sequence>
+                    <xs:element name="return" type="tns:groupResult" minOccurs="0"/>
+                </xs:sequence>
             </xs:complexType>
         </xs:schema>
     </types>

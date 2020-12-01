@@ -7,6 +7,7 @@ import java.util.Set;
 //          , wsdlLocation = "WEB-INF/wsdl/mailService.wsdl"
 )
 public class MailServiceImpl implements MailService {
+    @Override
     public String sendToGroup(Set<Addressee> to, Set<Addressee> cc, String subject, String body) {
         return MailSender.sendToGroup(to, cc, subject, body);
     }

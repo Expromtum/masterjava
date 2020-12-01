@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import ru.javaops.masterjava.persist.DBIProvider;
 import ru.javaops.masterjava.service.mail.persist.MailCase;
 import ru.javaops.masterjava.service.mail.persist.MailCaseDao;
@@ -21,17 +22,21 @@ public class MailSender {
     }
 
     static String sendToGroup(Set<Addressee> to, Set<Addressee> cc, String subject, String body) {
+
         log.info("Send mail to \'" + to + "\' cc \'" + cc + "\' subject \'" + subject + (log.isDebugEnabled() ? "\nbody=" + body : ""));
         String state = MailResult.OK;
         try {
-            val email = MailConfig.createHtmlEmail();
+            HtmlEmail email = MailConfig.createHtmlEmail();
             email.setSubject(subject);
             email.setHtmlMsg(body);
             for (Addressee addressee : to) {
                 email.addTo(addressee.getEmail(), addressee.getName());
             }
-            for (Addressee addressee : cc) {
-                email.addCc(addressee.getEmail(), addressee.getName());
+
+            if (cc != null) {
+                for (Addressee addressee : cc) {
+                    email.addCc(addressee.getEmail(), addressee.getName());
+                }
             }
 
             //  https://yandex.ru/blog/company/66296

@@ -15,10 +15,13 @@ public class MailServiceClient {
                 new QName("http://mail.javaops.ru/", "MailServiceImplService"));
 
         MailService mailService = service.getPort(MailService.class);
-        //mailService.sendToGroup(ImmutableSet.of(
-        //        new Addressee("masterjava@javaops.ru", null)), null, "Subject", "Body");
+        String groupResult = mailService.sendToGroup(ImmutableSet.of(
+                new Addressee("masterjava@javaops.ru", null)), null, "Subject", "Body");
+        System.out.println("Result sendToGroup: " + groupResult);
 
-        mailService.sendBulk(ImmutableSet.of(
+        GroupResult bulkResult = mailService.sendBulk(ImmutableSet.of(
                 new Addressee("masterjava@javaops.ru", null)), "Subject", "Body");
+
+        System.out.println("Result bulkResult: " + bulkResult);
     }
 }
