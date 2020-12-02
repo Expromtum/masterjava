@@ -16,6 +16,34 @@
     <packaging>war</packaging>
     <name>Mail Service</name>
 
+    <build>
+        <finalName>mail</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <!-- In ${MAVEN_HOME}\conf\settings.xml  override in profile
+                            <properties>
+                                <masterjava.config>G:/apps/masterjava/config/</masterjava.config>
+                            </properties>
+                            -->
+                            <directory>${masterjava.config}</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>wsdl/mailService.wsdl</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

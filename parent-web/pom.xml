@@ -75,6 +75,8 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>logback.xml</include>
+<!--                    Переопределяем переменные-->
+                    <include>app.conf</include>
                 </includes>
             </resource>
             <resource>

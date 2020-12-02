@@ -15,6 +15,18 @@
     <version>1.0-SNAPSHOT</version>
     <name>Mail API</name>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>${masterjava.config}</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>wsdl/mailService.wsdl</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
