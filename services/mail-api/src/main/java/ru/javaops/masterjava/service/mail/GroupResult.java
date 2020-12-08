@@ -20,4 +20,8 @@ public class GroupResult {
                 (failed == null ? "" : "Failed: " + failed.toString() + '\n') +
                 (failedCause == null ? "" : "Failed cause: " + failedCause);
     }
+
+    public boolean isAllSuccess () {
+        return (failed != null) && failed.isEmpty();
+    }
 }

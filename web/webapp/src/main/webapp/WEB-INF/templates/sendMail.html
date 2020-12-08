@@ -1,0 +1,64 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Main to Users</title>
+</head>
+
+<!--https://code.jquery.com/-->
+<!--http://stackoverflow.com/a/24070373/548473-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous" async>
+</script>
+
+<script type="text/javascript" src="resources/sendMail.js" defer></script>
+
+<body>
+    <form action="" method="post">
+        <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+        <h2 th:if="!${message.isEmpty()}" th:text="${message}">Message</h2>
+        <h3>Select users for send mail</h3>
+        <div>
+            <table id="table-users" border="1" cellpadding="8" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Flag</th>
+                    <th>Check</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--/*@thymesVar id="users" type="java.util.List<ru.javaops.masterjava.persist.model.User>"*/-->
+                <tr th:each="user,iter: ${users}">
+                    <td th:text="${iter.count}"></td>
+                    <td th:text="${user.fullName}"></td>
+                    <td th:utext="${user.email}"></td>
+                    <td th:text="${user.flag}"></td>
+                    <td><input type="checkbox" th:value="|${user.fullName} <${user.email}>|"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+        <div>
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" id="subject" placeholder="subject" required/>
+        </div>
+        <br>
+        <div>
+            <label for="body">Body:</label>
+            <textarea name="body" id="body" rows="7" cols="30" placeholder="body"></textarea>
+        </div>
+        <br>
+        <div>
+            <button type="button" onclick="send()">Send Mail</button>
+        </div>
+
+        <pre id="result"></pre>
+    </form>
+</body>
+
+</html>
