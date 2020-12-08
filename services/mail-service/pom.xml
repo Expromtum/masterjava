@@ -40,6 +40,7 @@
                             <directory>${masterjava.config}</directory>
                             <includes>
                                 <include>wsdl/mailService.wsdl</include>
+                                <include>wsdl/common.xsd</include>
                             </includes>
                             <targetPath>WEB-INF</targetPath>
                         </resource>
