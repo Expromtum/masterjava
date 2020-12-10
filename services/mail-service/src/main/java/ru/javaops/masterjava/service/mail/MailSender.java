@@ -2,8 +2,10 @@ package ru.javaops.masterjava.service.mail;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.sun.xml.ws.util.ByteArrayDataSource;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import ru.javaops.masterjava.ExceptionType;
 import ru.javaops.masterjava.persist.DBIProvider;
@@ -11,29 +13,45 @@ import ru.javaops.masterjava.service.mail.persist.MailCase;
 import ru.javaops.masterjava.service.mail.persist.MailCaseDao;
 import ru.javaops.web.WebStateException;
 
+import javax.activation.DataSource;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
 public class MailSender {
     private static final MailCaseDao MAIL_CASE_DAO = DBIProvider.getDao(MailCaseDao.class);
 
-    static MailResult sendTo(Addressee to, String subject, String body) throws WebStateException {
-        val state = sendToGroup(ImmutableSet.of(to), ImmutableSet.of(), subject, body);
+    static MailResult sendTo(Addressee to, String subject, String body, List<Attachment> attachments) throws WebStateException {
+        val state = sendToGroup(ImmutableSet.of(to), ImmutableSet.of(), subject, body, attachments);
         return new MailResult(to.getEmail(), state);
     }
 
-    static String sendToGroup(Set<Addressee> to, Set<Addressee> cc, String subject, String body) throws WebStateException {
+    static String sendToGroup(Set<Addressee> to, Set<Addressee> cc, String subject, String body,
+                              List<Attachment> attachments) throws WebStateException {
         log.info("Send mail to \'" + to + "\' cc \'" + cc + "\' subject \'" + subject + (log.isDebugEnabled() ? "\nbody=" + body : ""));
+
+        if (cc == null)
+            cc = Collections.<Addressee>emptySet();
+
         String state = MailResult.OK;
         try {
             val email = MailConfig.createHtmlEmail();
             email.setSubject(subject);
-            email.setHtmlMsg(body);
+            email.setMsg(body);
             for (Addressee addressee : to) {
                 email.addTo(addressee.getEmail(), addressee.getName());
             }
+
             for (Addressee addressee : cc) {
                 email.addCc(addressee.getEmail(), addressee.getName());
+            }
+
+            if (attachments != null) {
+                for (Attachment attachment : attachments) {
+                    DataSource dataSource = new ByteArrayDataSource(attachment.getBytes(), null);
+                    email.attach(dataSource, attachment.getFileName(), EmailAttachment.ATTACHMENT);
+                }
             }
 
             //  https://yandex.ru/blog/company/66296
@@ -44,12 +62,14 @@ public class MailSender {
             log.error(e.getMessage(), e);
             state = e.getMessage();
         }
+
         try {
             MAIL_CASE_DAO.insert(MailCase.of(to, cc, subject, state));
         } catch (Exception e) {
             log.error("Mail history saving exception", e);
             throw new WebStateException(e, ExceptionType.DATA_BASE);
         }
+
         log.info("Sent with state: " + state);
         return state;
     }

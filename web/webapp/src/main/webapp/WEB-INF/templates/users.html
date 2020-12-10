@@ -40,6 +40,9 @@
         <textarea id="body" placeholder="mail body" cols=75 rows=5></textarea><br/>
     </p>
     <p>
+        <input type="file" name="fileToUpload" id="fileToUpload" placeholder="fileToUpload"><br/>
+    </p>
+    <p>
         <button type="button" onclick="send()">Send</button>
     </p>
     <pre id="result"></pre>
@@ -47,17 +50,33 @@
 <script type="text/javascript">
     function send() {
         $('#result').html("Sending ...");
+
         var users = $("input:checkbox:checked").map(function () {
             return this.value;
         }).get();
-//        https://stackoverflow.com/a/22213543/548473
-        $.post("send", "users=" + users + "&subject=" + $("#subject").val() + "&body=" + $("#body").val())
-            .done(function (result) {
+
+        var data = new FormData();
+        data.append('users', users);
+        data.append('subject', $("#subject").val());
+        data.append('body', $("#body").val());
+        data.append('fileToUpload', $('#fileToUpload')[0].files[0]);
+        data.append('fileUploadName', $("#fileToUpload").val()); //TODO FileName
+
+        $.ajax({
+            url:"send",
+            type:"POST",
+            data:data,
+            contentType: false,
+            processData: false,
+            mimeType:"multipart/form-data",
+            done: function (result) {
                 $('#result').html(result);
-            })
-            .fail(function (result) {
+            },
+            fail:function (result) {
                 $('#result').html(result);
-            });
+            }
+        })
+
     }
 </script>
 </body>

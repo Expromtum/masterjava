@@ -20,6 +20,13 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        resp.setCharacterEncoding("utf-8");
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        resp.setHeader("Access-Control-Max-Age", "3600");
+        resp.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+
         final WebContext webContext = new WebContext(req, resp, req.getServletContext(), req.getLocale(),
                 ImmutableMap.of("users", userDao.getWithLimit(20)));
         engine.process("users", webContext, resp.getWriter());
