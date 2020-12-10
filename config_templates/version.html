@@ -4,8 +4,12 @@
     <title>${project.name}</title>
 </head>
 <body>
-${project.groupId}:${project.name}:${project.version}<br/>
-configDir=${masterjava.config}<br/>
+<pre>
+${project.groupId}:${project.name}:${project.version}
+configDir=${masterjava.config}
+branch.name = ${scmBranch}
+commit.hash = ${buildNumber}
+</pre>
 <a href="https://github.com/JavaWebinar/masterjava">Многопоточность. Maven. XML. Веб сервисы.</a>
 </body>
 </html>
