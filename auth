@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="5e7a83b1-367d-4818-a718-55efebf12e4f" activeEnvironment="Default" name="ws_auth" resourceRoot="" soapui-version="5.6.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="f3c77a0a-55dc-4c05-bba0-4cd17202431d" wsaVersion="NONE" name="MailServiceImplPortBinding" type="wsdl" bindingName="{http://mail.javaops.ru/}MailServiceImplPortBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/mail/mailService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/mail/mailService?wsdl"><con:part><con:url>http://localhost:8080/mail/mailService?wsdl</con:url><con:content><![CDATA[<!--Published by JAX-WS RI (https://github.com/eclipse-ee4j/metro-jax-ws). RI's version is JAX-WS RI 2.3.3 git-revision#b4c5bb6.-->
+<definitions targetNamespace="http://mail.javaops.ru/" name="MailServiceImplService" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://mail.javaops.ru/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="http://common.javaops.ru/" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xs:schema targetNamespace="http://mail.javaops.ru/">
+      <xs:import namespace="http://common.javaops.ru/" schemaLocation="http://localhost:8080/mail/mailService?xsd=1"/>
+      <xs:element name="sendToGroup" type="tns:sendToGroup"/>
+      <xs:element name="sendToGroupResponse" type="tns:sendToGroupResponse"/>
+      <xs:element name="sendBulk" type="tns:sendBulk"/>
+      <xs:element name="sendBulkResponse" type="tns:sendBulkResponse"/>
+      <xs:complexType name="sendToGroup">
+        <xs:sequence>
+          <xs:element name="to" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="cc" type="tns:addressee" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="subject" type="xs:string" minOccurs="0"/>
+          <xs:element name="body" type="xs:string" minOccurs="1"/>
+          <xs:element name="attachments" type="tns:attachment" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendToGroupResponse">
+        <xs:sequence>
+          <xs:element name="status" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendBulk">
+        <xs:sequence>
+          <xs:element name="to" type="tns:addressee" maxOccurs="unbounded"/>
+          <xs:element name="subject" type="xs:string" minOccurs="0"/>
+          <xs:element name="body" type="xs:string" minOccurs="1"/>
+          <xs:element name="attachments" type="tns:attachment" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sendBulkResponse">
+        <xs:sequence>
+          <xs:element name="groupResult">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="failed" type="tns:mailResult" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="success" type="xs:int"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="mailResult">
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute type="xs:string" name="email"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:complexType name="addressee">
+        <xs:simpleContent>
+          <xs:extension base="xs:string">
+            <xs:attribute type="xs:string" name="email"/>
+          </xs:extension>
+        </xs:simpleContent>
+      </xs:complexType>
+      <xs:complexType name="sendMailResponse">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="attachment">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string" minOccurs="0"/>
+          <xs:element name="dataHandler" xmime:expectedContentTypes="application/octet-stream" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="sendToGroup">
+    <part name="parameters" element="tns:sendToGroup"/>
+  </message>
+  <message name="sendToGroupResponse">
+    <part name="parameters" element="tns:sendToGroupResponse"/>
+  </message>
+  <message name="sendBulk">
+    <part name="parameters" element="tns:sendBulk"/>
+  </message>
+  <message name="sendBulkResponse">
+    <part name="parameters" element="tns:sendBulkResponse"/>
+  </message>
+  <message name="WebStateException">
+    <part name="fault" element="common:webStateException"/>
+  </message>
+  <portType name="MailService">
+    <operation name="sendToGroup">
+      <input wsam:Action="http://mail.javaops.ru/MailService/sendToGroupRequest" message="tns:sendToGroup"/>
+      <output wsam:Action="http://mail.javaops.ru/MailService/sendToGroupResponse" message="tns:sendToGroupResponse"/>
+      <fault wsam:Action="http://mail.javaops.ru/MailService/sendBulkMail/Fault/WebStateException" message="tns:WebStateException" name="WebStateException"/>
+    </operation>
+    <operation name="sendBulk">
+      <input wsam:Action="http://mail.javaops.ru/MailService/sendBulkRequest" message="tns:sendBulk"/>
+      <output wsam:Action="http://mail.javaops.ru/MailService/sendBulkResponse" message="tns:sendBulkResponse"/>
+      <fault wsam:Action="http://mail.javaops.ru/MailService/sendBulkMail/Fault/WebStateException" message="tns:WebStateException" name="WebStateException"/>
+    </operation>
+  </portType>
+  <binding name="MailServiceImplPortBinding" type="tns:MailService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="sendToGroup">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="WebStateException">
+        <soap:fault name="WebStateException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="sendBulk">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="WebStateException">
+        <soap:fault name="WebStateException" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="MailServiceImplService">
+    <port name="MailServiceImplPort" binding="tns:MailServiceImplPortBinding">
+      <soap:address location="http://localhost:8080/mail/mailService"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8080/mail/mailService?xsd=1</con:url><con:content><![CDATA[<!--Published by JAX-WS RI (https://github.com/eclipse-ee4j/metro-jax-ws). RI's version is JAX-WS RI 2.3.3 git-revision#b4c5bb6.-->
+<!--http://stackoverflow.com/questions/17295588/xmlntns-and-targetnamespace-->
+<xs:schema targetNamespace="http://common.javaops.ru/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://common.javaops.ru/">
+  <xs:element name="webStateException" nillable="true" type="tns:faultInfo"/>
+  <xs:complexType name="faultInfo">
+    <xs:sequence>
+      <xs:element name="type" type="tns:exceptionType" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="exceptionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SYSTEM"/>
+      <xs:enumeration value="DATA_BASE"/>
+      <xs:enumeration value="STATE"/>
+      <xs:enumeration value="AUTHORIZATION"/>
+      <xs:enumeration value="CONFIGURATION"/>
+      <xs:enumeration value="ILLEGAL_ARGUMENT"/>
+      <xs:enumeration value="BPM"/>
+      <xs:enumeration value="FILE"/>
+      <xs:enumeration value="REPORTS"/>
+      <xs:enumeration value="EMAIL"/>
+      <xs:enumeration value="TEMPLATE"/>
+      <xs:enumeration value="ONE_C"/>
+      <xs:enumeration value="ATTACHMENT"/>
+      <xs:enumeration value="LDAP"/>
+      <xs:enumeration value="SOAP"/>
+      <xs:enumeration value="NETWORK"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/mail/mailService</con:endpoint></con:endpoints><con:operation id="4300479b-946d-481c-af22-abdd9e9c9a84" isOneWay="false" action="" name="sendBulk" bindingOperationName="sendBulk" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1b7bb2b5-c9cf-449c-99fb-3c24ad61fb1b" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/mail/mailService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mail="http://mail.javaops.ru/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <mail:sendBulk>\r
+         <!--1 or more repetitions:-->\r
+         <to email="?">?</to>\r
+         <!--Optional:-->\r
+         <subject>?</subject>\r
+         <body>?</body>\r
+         <!--Zero or more repetitions:-->\r
+         <attachments>\r
+            <!--Optional:-->\r
+            <name>?</name>\r
+            <dataHandler>cid:353856608354</dataHandler>\r
+         </attachments>\r
+      </mail:sendBulk>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mail.javaops.ru/MailService/sendBulkRequest"/></con:call></con:operation><con:operation id="3e216056-c3d2-4c47-b6f7-b02dcb5e8a17" isOneWay="false" action="" name="sendToGroup" bindingOperationName="sendToGroup" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cce8e619-96d9-4c7c-91b8-ab50cba0fe20" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/mail/mailService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mail="http://mail.javaops.ru/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <mail:sendToGroup>\r
+         <!--Zero or more repetitions:-->\r
+         <to email="stagger@mail.ru">stagger</to>\r
+         <!--Zero or more repetitions:-->\r
+         <cc email="stagger@mail.ru">stagger</cc>\r
+         <!--Optional:-->\r
+         <subject>SUBJ_AUTH</subject>\r
+         <body>BODY_AUTH</body>\r
+         <!--Zero or more repetitions:-->\r
+         <attachments>\r
+            <!--Optional:-->\r
+            <name>?</name>\r
+            <dataHandler>cid:1047163593555</dataHandler>\r
+         </attachments>\r
+      </mail:sendToGroup>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>password</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mail.javaops.ru/MailService/sendToGroupRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
