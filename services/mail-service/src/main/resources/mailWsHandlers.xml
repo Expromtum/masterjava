@@ -5,8 +5,12 @@
         <handler-class>ru.javaops.masterjava.web.handler.SoapLoggingHandlers$ServerHandler</handler-class>
     </handler>
     <handler>
-        <handler-name>SoapServerStatisticsHandler</handler-name>
+        <handler-name>SoapStatisticsHandler</handler-name>
         <handler-class>ru.javaops.masterjava.web.handler.SoapServerStatisticsHandler</handler-class>
+    </handler>
+    <handler>
+        <handler-name>SoapSecurityHandler</handler-name>
+        <handler-class>ru.javaops.masterjava.service.mail.handlers.MailHandlers$SecurityHandler</handler-class>
     </handler>
 </handler-chain>
 </handler-chains>
