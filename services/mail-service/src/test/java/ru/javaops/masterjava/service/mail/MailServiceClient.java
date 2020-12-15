@@ -2,22 +2,25 @@ package ru.javaops.masterjava.service.mail;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import org.slf4j.event.Level;
 import ru.javaops.masterjava.web.WebStateException;
+import ru.javaops.masterjava.web.handler.SoapLoggingHandlers;
 
 import javax.activation.DataHandler;
 import javax.xml.namespace.QName;
+import javax.xml.ws.Binding;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
-import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.Handler;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MailServiceClient {
+
+    private static final SoapLoggingHandlers.ClientHandler LOGGING_HANDLER = new SoapLoggingHandlers.ClientHandler(Level.DEBUG);
 
     public static void main(String[] args) throws MalformedURLException, WebStateException {
         Service service = Service.create(
@@ -37,6 +40,11 @@ public class MailServiceClient {
         requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                 "http://localhost:8080/mail/mailService");
 
+        // Handlers
+        Binding binding = ((BindingProvider) mailService).getBinding();
+        List<Handler> handlerList = binding.getHandlerChain();
+        handlerList.add(LOGGING_HANDLER);
+        binding.setHandlerChain(handlerList);
 
         String state = mailService.sendToGroup(ImmutableSet.of(new Addressee("masterjava@javaops.ru", null)), null,
                 "Group mail subject", "Group mail body", attachments);
