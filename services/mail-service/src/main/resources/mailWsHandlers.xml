@@ -2,7 +2,7 @@
 <handler-chain>
     <handler>
         <handler-name>SoapLoggingHandler</handler-name>
-        <handler-class>ru.javaops.masterjava.web.handler.SoapLoggingHandlers$ServerHandler</handler-class>
+        <handler-class>ru.javaops.masterjava.service.mail.handlers.MailHandlers$LoggingHandler</handler-class>
     </handler>
     <handler>
         <handler-name>SoapStatisticsHandler</handler-name>

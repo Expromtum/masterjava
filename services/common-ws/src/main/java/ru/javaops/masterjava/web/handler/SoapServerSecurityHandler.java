@@ -13,8 +13,8 @@ public class SoapServerSecurityHandler extends SoapBaseHandler {
 
     private String authHeader;
 
-    public SoapServerSecurityHandler (String user, String password) {
-        authHeader = AuthUtil.encodeBasicAuthHeader(user, password);
+    public SoapServerSecurityHandler (String authHeader) {
+        this.authHeader = authHeader;
     }
 
     @Override
