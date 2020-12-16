@@ -104,11 +104,24 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
             <version>${jersey.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>org.eclipse.persistence.core</artifactId>
+                    <groupId>org.eclipse.persistence</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-bean-validation</artifactId>
             <version>${jersey.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>org.eclipse.persistence.core</artifactId>
+            <groupId>org.eclipse.persistence</groupId>
+            <version>2.7.0</version>
         </dependency>
     </dependencies>
 </project>
