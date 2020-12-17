@@ -13,6 +13,12 @@ import java.util.Collections;
 
 @Path("/")
 public class MailRS {
+
+    //JAX-RS Detail WADL URL: http://localhost:8080/mail/rest/application.wadl?detail=true
+    // Упрощенный вариант: http://localhost:8080/mail/rest/application.wadl
+
+    //JAX-RS Test URL: http://localhost:8080/mail/rest/test
+
     @GET
     @Path("test")
     @Produces(MediaType.TEXT_PLAIN)
