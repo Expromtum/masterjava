@@ -1,10 +1,9 @@
 package ru.javaops.masterjava.service.mail.rest;
 
-
 import org.hibernate.validator.constraints.NotBlank;
 import ru.javaops.masterjava.service.mail.GroupResult;
 import ru.javaops.masterjava.service.mail.MailServiceExecutor;
-import ru.javaops.masterjava.service.mail.MailWSClient;
+import ru.javaops.masterjava.service.mail.util.MailUtils;
 import ru.javaops.masterjava.web.WebStateException;
 
 import javax.ws.rs.*;
@@ -33,6 +32,6 @@ public class MailRS {
                             @FormParam("subject") String subject,
                             @NotBlank @FormParam("body") String body) throws WebStateException {
 
-        return MailServiceExecutor.sendBulk(MailWSClient.split(users), subject, body, Collections.emptyList());
+        return MailServiceExecutor.sendBulk(MailUtils.split(users), subject, body, Collections.emptyList());
     }
 }

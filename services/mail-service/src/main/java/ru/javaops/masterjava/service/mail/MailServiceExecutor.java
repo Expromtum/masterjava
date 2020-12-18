@@ -1,12 +1,18 @@
 package ru.javaops.masterjava.service.mail;
 
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import one.util.streamex.StreamEx;
 import ru.javaops.masterjava.ExceptionType;
+import ru.javaops.masterjava.service.mail.util.Attachments;
+import ru.javaops.masterjava.service.mail.util.MailObject;
+import ru.javaops.masterjava.service.mail.util.MailUtils;
 import ru.javaops.masterjava.web.WebStateException;
 import ru.javaops.masterjava.web.WsClient;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.*;
@@ -69,4 +75,24 @@ public class MailServiceExecutor {
             }
         }.call();
     }
+
+    public static void sendMail(MailObject mailObject) {
+        Set<Addressee> addressees = MailUtils.split(mailObject.getUsers());
+
+        addressees.forEach(addressee ->
+                mailExecutor.submit(() -> {
+                    try {
+                        Attachment attachment = mailObject.getAttachName() == null ? null :
+                                Attachments.getAttachment(mailObject.getAttachName(),
+                                    new ByteArrayInputStream(mailObject.getAttachData()));
+
+                        MailSender.sendTo(addressee, mailObject.getSubject(), mailObject.getBody(),
+                                attachment == null ? Collections.emptyList() : ImmutableList.of(attachment));
+                    } catch (WebStateException e) {
+                        // already logged
+                    }
+                })
+        );
+    }
+
 }

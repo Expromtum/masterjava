@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.javaops.masterjava.service.mail.GroupResult;
 import ru.javaops.masterjava.service.mail.MailWSClient;
 import ru.javaops.masterjava.service.mail.util.Attachments;
+import ru.javaops.masterjava.service.mail.util.MailUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -30,7 +31,7 @@ public class SoapSendServlet extends HttpServlet {
             String subject = req.getParameter("subject");
             String body = req.getParameter("body");
             Part filePart = req.getPart("attach");
-            GroupResult groupResult = MailWSClient.sendBulk(MailWSClient.split(users), subject, body,
+            GroupResult groupResult = MailWSClient.sendBulk(MailUtils.split(users), subject, body,
                     filePart == null ? null :
                             ImmutableList.of(Attachments.getAttachment(filePart.getSubmittedFileName(), filePart.getInputStream())));
             result = groupResult.toString();
